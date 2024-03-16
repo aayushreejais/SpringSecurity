@@ -6,6 +6,7 @@ import java.security.Principal;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  @PreAuthorize("hasRole('USER')")
   @GetMapping("/users")
   public List<User> getUsers() {
     log.info("fetching user list");
@@ -26,7 +28,7 @@ public class UserController {
 
   //principal is the subject/object which keeps the track of the current logged in user
   @GetMapping("/loggedInUser")
-  public String getLoggedInUser(Principal principal){
+  public String getLoggedInUser(Principal principal) {
     return principal.getName();
   }
 
